@@ -1,0 +1,3 @@
+@name('answer') SELECT winnersTitle, avg(numberOfMoves) as avgMoves
+                                        FROM ChessEvent#ext_timed(java.sql.Timestamp.valueOf(its).getTime(), 60 sec)
+                                    GROUP BY winnersTitle

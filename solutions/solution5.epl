@@ -1,0 +1,3 @@
+@name('answer') select a.winner as winner1, b.winner as winner2, c.winner as winner3
+                    from pattern [every (a=ChessEvent -> b=ChessEvent -> c=ChessEvent(winnersTitle = 'WGM' and numberOfMoves > 70)) where timer:within(5 sec)]
+                    ;

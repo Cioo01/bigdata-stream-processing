@@ -1,0 +1,11 @@
+@name('answer') SELECT * from ChessEvent MATCH_RECOGNIZE(
+                    MEASURES FIRST(NORMAL.winner) as firstWinner,
+                             FIRST(NORMAL.winnersTitle) as firstTitle,
+                             LAST(NORMAL.winner) as lastWinner,
+                             LAST(NORMAL.winnersTitle) as lastTitle,
+                             COUNT(NORMAL.winner) as numberOfGames
+                    PATTERN (NORMAL+ ABNORMAL)
+                    DEFINE
+                        NORMAL AS NORMAL.numberOfMoves between 20 and 90 and NORMAL.matchTimeInSeconds between 60 and 540,
+                        ABNORMAL AS ABNORMAL.numberOfMoves not between 20 and 90 or ABNORMAL.matchTimeInSeconds not between 60 and 540
+                    )

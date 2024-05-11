@@ -1,0 +1,23 @@
+create window GMOpeningsWindow#length(10) as (opening string, match_count long);
+create window WGMOpeningsWindow#length(10) as (opening string, match_count long);
+                    
+                    INSERT INTO GMOpeningsWindow(opening, match_count)
+                    SELECT opening, count(opening) from ChessEvent#ext_timed(java.sql.Timestamp.valueOf(its).getTime(), 60 sec)
+                    WHERE winnersTitle = 'GM'
+                    GROUP BY opening
+                    ORDER BY count(opening) desc
+                    LIMIT 10;
+                    
+                    
+                    INSERT INTO WGMOpeningsWindow(opening, match_count)
+                    SELECT opening, count(opening) from ChessEvent#ext_timed(java.sql.Timestamp.valueOf(its).getTime(), 60 sec)
+                    WHERE winnersTitle = 'WGM'
+                    GROUP BY opening
+                    ORDER BY count(opening) desc
+                    LIMIT 10;
+                    
+                    @name('answer') select coalesce(wgm.opening, gm.opening) as opening, coalesce(gm.match_count,0) as gamesGM, coalesce(wgm.match_count,0) as gamesWGM
+                    from GMOpeningsWindow as gm
+                    full outer join
+                    WGMOpeningsWindow as wgm on gm.opening = wgm.opening
+                    group by gm.opening;

@@ -1,0 +1,4 @@
+@name('answer') SELECT opening, numberOfMoves, avg(numberOfMoves) as avgMoves
+                    FROM ChessEvent#length(1000)
+                    GROUP BY opening
+                    HAVING numberOfMoves < 0.5 * avg(numberOfMoves)

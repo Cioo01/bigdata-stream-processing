@@ -1,0 +1,8 @@
+@name('answer') SELECT a.numberOfMoves as numberOfMoves1,
+                                            b.numberOfMoves as numberOfMoves2,
+                                            c.numberOfMoves as numberOfMoves3
+
+                        FROM pattern [every (a=ChessEvent(winnersColor = "white" and numberOfMoves < 50) ->
+                                            (b=ChessEvent(winnersColor = "white" and numberOfMoves < 50) and not ChessEvent(winnersColor = "black") ->
+                                            c=ChessEvent(winnersColor = "white" and numberOfMoves < 50) and not ChessEvent(winnersColor = "black")))]
+                                    ;
