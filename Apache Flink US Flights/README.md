@@ -10,13 +10,16 @@ gcloud dataproc clusters create ${CLUSTER_NAME} \
 --metadata "run-on-master=true" \
 --initialization-actions \
 gs://goog-dataproc-initialization-actions-${REGION}/kafka/kafka.sh
-
+```
 
 # Dokonaj edycji zmiennych środowiskowych w pliku env-setup.sh
 
 # Po wykonaniu zmian, uruchom poniższy skrypt:
+```sh
 ./main.sh
-
+```
 # Teraz wystarczy uruchomić skrypty producenta i konsumenta
+```sh
 ./producer.sh
 ./consumer.sh
+```
